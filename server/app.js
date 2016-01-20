@@ -7,18 +7,23 @@
 var express = require('express');
 var path = require('path');
 var fs = require('fs');
-
-/**
- * Routing
- */
+var bodyparser = require('bodyparser');
 var routes = require('./routes/index')
 
 var app = express();
 
-// make everything static HTML for now
+// tell how to render
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
+
+// parse the responses as necessary
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// link to the public folder
 app.use(express.static(path.join(__dirname, 'public')));
+
+//  link up the router
 app.use('/', routes);
 
 // catch 404 and forward to error handler
