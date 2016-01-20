@@ -1,3 +1,0 @@
-some data here
-sample data here
-even more data but this time with " and ' and \ and other cool symbols
