@@ -6,15 +6,14 @@
 
 var express = require('express');
 var path = require('path');
-var fs = require('fs');
-var bodyparser = require('bodyparser');
+var bodyParser = require('body-parser');
 var routes = require('./routes/index')
 
 var app = express();
 
 // tell how to render
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'html');
+app.set('view engine', 'ejs');
 
 // parse the responses as necessary
 app.use(bodyParser.json());
