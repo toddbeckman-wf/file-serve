@@ -17,8 +17,9 @@ def wrapfile(data):
     return "{'mode':'sent';'data':'"+data+"'}"
 
 
+# wraps a received message into the JSON
 def success(msg):
-    return "{'mode':'received';'msg':'"
+    return "{'mode':'received';'msg':'"+msg+"'}"
 
 
 # formats an error code into the proper JSON format for sending
@@ -63,7 +64,8 @@ while True:
             else:
                 putfile(request.file, request.data)
                 connection.send(success(request.file+" saved successfully."))
-        print(data)
+        else:
+            connection.err("Invalid 'mode' specified. Options: get, put.")
     finally:
         connection.close()
 
