@@ -1,5 +1,5 @@
 config.py
 files/
-*.pyc
+node_modules/
 .idea
 .DS_STORE
