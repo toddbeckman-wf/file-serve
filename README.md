@@ -8,15 +8,18 @@ Some thoughts:
 
 The implementation thusfar only serves. I may switch to FTP such as ftpd.
 
-It should be easy to communicate with a simple handshake protocol:
+Client requests a transaction:
+- later: Server provides salt for authentication
+- Client provides authentication
+- Server provides keys
 
-speaker | info
---------|-----
-client  | request file
-server  | provide get and put keys
-client  | request get file
-server  | send file
-client  | request put file
-server  | ready
-client  | send file
+Client requests for file (JSON?):
+- Client provides key: key (query.k)
+- Server finds file associated with the key
+- Server sends the requested file
 
+Client requests to send file (JSON again probably)
+- Client provides key (query.q)
+- Server accepts connection
+- Client sends file
+- Server verifies proper storage and closes connection
