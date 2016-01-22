@@ -1,8 +1,97 @@
 <html>
   <head>
   <title><%=title%></title>
+  <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+  <script>
+var salt = <%=salt%>;
+var getkey, putkey;
+
+//  The first step for the client is to request the keys from the server
+/*
+{
+  user: user, //  authentication user
+  pass: pass, //  authentication password
+  file: file, //  the file name
+  salt: salt  //  TODO should be used when security is added
+}
+*/
+$("getkeys").click(function() {
+  $.getJSON('keys.json', {
+    user: document.getElementById("user").value,
+    pass: document.getElementById("pass").value,//this will have to be encrypted
+    file: document.getElementById("file").value,
+    salt: 1  //  again to be updated with security
+  },
+  function(data) {
+    if (data.error) {
+      document.getElementById("error").innerHTML = data.message;
+    }
+    else {
+      getkey = data.getkey;
+      putkey = data.putkey;
+
+      document.getElementById("getkey").innerHTML = getkey;
+      document.getElementById("putkey").innerHTML = putkey;
+    }
+  });
+});
+
+
+
+//  Now that the user has a key, getting files is possible
+/*
+{
+  key: getkey,
+  user: user,
+  pass: pass,
+  salt: salt
+}
+*/
+$("getfile").click(function() {
+  if (getkey) {
+    window.location = "getfile?key="+getkey
+      +"&user="+document.getElementById("user").value
+      +"&pass="+document.getElementById("pass").value
+      +"&salt="+salt;
+  }
+});
+
+
+
+//  Allow the user to use the putkey to upload the file
+/*
+{
+  key: putkey,
+  user: user,
+  pass: pass,
+  salt: salt
+}
+*/
+$("putfile").click(function() {
+});
+
+
+  </script>
   </head>
   <body>
-    <%=message%>
+    
+
+    Username: <input id="user" type="text"></input><br>
+    Password: <input id="pass" type="password"></input><br>
+    Filename: <input id="file" type="text"></input><br>
+
+
+    <input id="getkeys" type="button" value="Get Keys">
+    <input id="getfile" type="button" value="Download File">
+    <input id="putfile" type="button" value="Upload File">
+
+    <br><br>
+
+
+    Get key: <div id="getkey"></div><br>
+    Put key: <div id="putkey"></div><br>
+    
+
+    <div id="error" style="color: red;"></div>
   </body>
 </html>
