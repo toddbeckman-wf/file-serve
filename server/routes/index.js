@@ -3,7 +3,8 @@ var path = require('path');
 var fs = require('fs');
 var url = require('url');
 var multer = require('multer');
-var keys = require('./keys');
+var keys = require('../keys');
+var config = require('../config');
 var router = express.Router();
 var upload = multer({
   storage: multer.diskStorage({
@@ -30,7 +31,7 @@ router.get('/', function(req, res, next) {
     title: 'Welcome',
     salt: 1//eventually this can be used to ensure security
   })
-}
+});
 
 // TODO: this is very weak authentication
 // hash the transaction
@@ -72,7 +73,7 @@ router.get('keys.json', function (req, res, next) {
         message: "No file name requested. No keys were made."
       })
     }
-  })
+  }
 });
 
 
@@ -124,13 +125,15 @@ router.get('getfile', function(req, res, next) {
       });
     }
   }
-}
+});
 
 
 // the handler for file uploads
-router.post('/upload', upload, function(req, res, next) {
-    // todo
-  }
+/*
+router.get('/upload', upload, function(req, res, next) {
+  // todo
+}
 );
+*/
 
 module.exports = router;

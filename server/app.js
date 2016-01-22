@@ -8,7 +8,6 @@ var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var routes = require('./routes/index');
-var ftp = require('./ftp/server');
 
 
 var app = express();
