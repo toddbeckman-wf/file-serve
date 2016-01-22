@@ -2,8 +2,8 @@ var express = require('express');
 var path = require('path');
 var fs = require('fs');
 var url = require('url');
-var keys = require('./keys');
 var multer = require('multer');
+var keys = require('./keys');
 var router = express.Router();
 var upload = multer({
   storage: multer.diskStorage({
@@ -48,7 +48,7 @@ router.get('keys.json', function (req, res, next) {
   var query = url.parse(req,url, true).query;
   if (!authenticate(query)) {
     res.json({
-      error: "error",
+      error: "oops",
       message: "Authentication failed. No keys were made."
     })
   }
@@ -60,15 +60,15 @@ router.get('keys.json', function (req, res, next) {
       var salt = Math.random();
 
       //  give those keys to the user
-      res.json(JSON.stringify({
+      res.json({
         "get": getKey,
         "set": setKey,
         "salt": salt
-      }));
+      });
     }
     else {
       res.json({
-        error: "error",
+        error: "oops",
         message: "No file name requested. No keys were made."
       })
     }
@@ -82,7 +82,7 @@ router.get('getfile', function(req, res, next) {
   
   //  authenticate first
   if (!authenticate(query)) {
-    res.render('error', {
+    res.render('oops', {
       title: 'Oops!',
       message: 'Those credentials are not correct!'
     })
@@ -91,7 +91,7 @@ router.get('getfile', function(req, res, next) {
   //  Verify the job
   var job = keys.read(query.key);
   if (job.job != query.job) {
-    res.render('error', {
+    res.render('oops', {
       title: 'Oops',
       message: 'Looks like your key is not meant for this job.'
     });
@@ -118,7 +118,7 @@ router.get('getfile', function(req, res, next) {
 
     // the requested file was not found
     catch (e) {
-      res.render('error', { 
+      res.render('oops', { 
         title: 'Oops!',
         message: 'The requested file ' + filename + ' was not found.'
       });
